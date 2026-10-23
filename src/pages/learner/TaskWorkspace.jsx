@@ -28,6 +28,16 @@ function SubmissionLink({ s }) {
   return <Link href={s.url} target="_blank" rel="noopener noreferrer" variant="body2" sx={{ wordBreak: "break-all" }}>{s.url}</Link>;
 }
 
+function Feedback({ review }) {
+  if (!review?.feedback) return null;
+  return (
+    <Box sx={{ mt: 1.5, pl: 1.5, borderLeft: `3px solid ${palette.line}` }}>
+      <Typography variant="body2" color="text.secondary">Mentor feedback</Typography>
+      <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>{review.feedback}</Typography>
+    </Box>
+  );
+}
+
 function SubmissionPanel({ task }) {
   const subs = useQuery({
     queryKey: ["submissions", { taskId: task.id }],
@@ -62,7 +72,12 @@ function SubmissionPanel({ task }) {
   } else if (latest.status === "revision_requested") {
     body = (
       <>
-        <Alert severity="warning" sx={{ mb: 3 }}>Your mentor asked for changes. Update your work and resubmit it as attempt {latest.attempt + 1}.</Alert>
+        <Alert severity="warning" sx={{ mb: 3, "& .MuiAlert-message": { width: "100%" } }}>
+          Your mentor asked for changes. Update your work and resubmit it as attempt {latest.attempt + 1}.
+          {latest.review?.feedback && (
+            <Typography sx={{ mt: 1.5, whiteSpace: "pre-wrap", color: "text.primary" }}>{latest.review.feedback}</Typography>
+          )}
+        </Alert>
         <SubmitForm task={task} resubmitId={latest.id} defaults={latest} />
       </>
     );
@@ -74,6 +89,7 @@ function SubmissionPanel({ task }) {
           <StatusChip status="approved" />
         </Stack>
         <Typography color="text.secondary" sx={{ mb: 2 }}>This task is done. The next one in your track is open.</Typography>
+        {latest.review?.feedback && <Box sx={{ mb: 2.5 }}><Feedback review={latest.review} /></Box>}
         <Button component={RouterLink} to="/" variant="contained">Back to my learning</Button>
       </>
     );
@@ -93,6 +109,7 @@ function SubmissionPanel({ task }) {
                   <Typography variant="body2" fontWeight={650}>Attempt {a.attempt}</Typography>
                   <Typography variant="body2" color="text.secondary">{dateTime(a.submittedAt)}</Typography>
                   <SubmissionLink s={a} />
+                  {a.id !== latest.id && <Feedback review={a.review} />}
                 </Box>
                 <StatusChip status={a.status} />
               </Box>

@@ -17,6 +17,10 @@ const TrackDetail = lazy(() => import("./pages/TrackDetail"));
 const Journey = lazy(() => import("./pages/learner/Journey"));
 const TaskWorkspace = lazy(() => import("./pages/learner/TaskWorkspace"));
 const Submissions = lazy(() => import("./pages/learner/Submissions"));
+const ReviewQueue = lazy(() => import("./pages/mentor/Queue"));
+const ReviewDetail = lazy(() => import("./pages/mentor/ReviewDetail"));
+const MyLearners = lazy(() => import("./pages/mentor/Learners"));
+const AdminEnrollments = lazy(() => import("./pages/admin/Enrollments"));
 const AdminUsers = lazy(() => import("./pages/admin/Users"));
 const AdminContent = lazy(() => import("./pages/admin/Content"));
 const AdminTrack = lazy(() => import("./pages/admin/TrackEditor"));
@@ -39,7 +43,7 @@ function GuestOnly({ children }) {
 function Home() {
   const { user } = useAuth();
   if (user.role === "admin") return <Navigate to="/admin/content" replace />;
-  if (user.role === "mentor") return <Navigate to="/tracks" replace />;
+  if (user.role === "mentor") return <Navigate to="/review" replace />;
   if (!user.onboardingCompleted) return <Navigate to="/onboarding" replace />;
   return <Dashboard />;
 }
@@ -63,6 +67,10 @@ export default function App() {
           <Route path="learn/:enrollmentId" element={<Protected roles={["learner"]}><Journey /></Protected>} />
           <Route path="tasks/:taskId" element={<TaskWorkspace />} />
           <Route path="submissions" element={<Protected roles={["learner"]}><Submissions /></Protected>} />
+          <Route path="review" element={<Protected roles={["mentor", "admin"]}><ReviewQueue /></Protected>} />
+          <Route path="review/:submissionId" element={<Protected roles={["mentor", "admin"]}><ReviewDetail /></Protected>} />
+          <Route path="learners" element={<Protected roles={["mentor"]}><MyLearners /></Protected>} />
+          <Route path="admin/enrollments" element={<Protected roles={["admin"]}><AdminEnrollments /></Protected>} />
           <Route path="admin/users" element={<Protected roles={["admin"]}><AdminUsers /></Protected>} />
           <Route path="admin/content" element={<Protected roles={["admin"]}><AdminContent /></Protected>} />
           <Route path="admin/content/:trackId" element={<Protected roles={["admin"]}><AdminTrack /></Protected>} />

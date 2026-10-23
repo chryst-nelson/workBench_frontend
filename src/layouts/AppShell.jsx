@@ -10,6 +10,8 @@ import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
 import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
+import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Logo } from "../components/Logo";
@@ -24,10 +26,16 @@ const NAV = {
     { to: "/tracks", label: "Tracks", icon: <LibraryBooksOutlinedIcon /> },
     { to: "/submissions", label: "Submissions", icon: <FactCheckOutlinedIcon /> },
   ],
-  mentor: [{ to: "/tracks", label: "Tracks", icon: <LibraryBooksOutlinedIcon /> }],
+  mentor: [
+    { to: "/review", label: "Review queue", icon: <RateReviewOutlinedIcon /> },
+    { to: "/learners", label: "My learners", icon: <GroupsOutlinedIcon /> },
+    { to: "/tracks", label: "Tracks", icon: <LibraryBooksOutlinedIcon /> },
+  ],
   admin: [
     { to: "/admin/content", label: "Content", icon: <EditNoteOutlinedIcon /> },
     { to: "/admin/users", label: "Users", icon: <PeopleOutlinedIcon /> },
+    { to: "/admin/enrollments", label: "Mentor assignment", icon: <GroupsOutlinedIcon /> },
+    { to: "/review", label: "Review queue", icon: <RateReviewOutlinedIcon /> },
     { to: "/tracks", label: "Track catalog", icon: <LibraryBooksOutlinedIcon /> },
   ],
 };

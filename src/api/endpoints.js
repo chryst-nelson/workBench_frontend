@@ -48,3 +48,11 @@ export const learnerApi = {
   submissions: (q) => withMeta(get("/submissions/me", q)),
   submission: (id) => d(get(`/submissions/${id}`)),
 };
+
+export const reviewApi = {
+  queue: (q) => withMeta(get("/reviews/queue", q)),
+  review: (id, b) => pick("submission")(post(`/submissions/${id}/review`, b)),
+  assigned: () => withMeta(get("/enrollments/assigned", { limit: 100 })),
+  enrollments: (q) => withMeta(get("/enrollments", q)),
+  assignMentor: (id, mentorId) => pick("enrollment")(patch(`/enrollments/${id}/mentor`, { mentorId })),
+};
